@@ -8,21 +8,27 @@ class Snake {
   get X() {
     return this._X;
   }
+  set X(X: number) {
+    if (this.X === X) return;
+    if (X < 0 || X > 300) {
+      throw new Error('蛇撞墙了！');
+    }
+    this._X = X;
+  }
+
   get Y() {
     return this._Y;
+  }
+  set Y(Y: number) {
+    if (this.Y === Y) return;
+    if (Y < 0 || Y > 300) {
+      throw new Error('蛇撞墙了！');
+    }
+    this._Y = Y;
   }
 
   eat() {
     this._length++;
-  }
-
-  moveX(direction) {
-    this._X += direction === 'right' ? 10 : -10;
-    // console.log(this._X);
-  }
-  moveY(direction) {
-    this._Y += direction === 'up' ? 10 : -10;
-    // console.log(this._Y);
   }
 }
 

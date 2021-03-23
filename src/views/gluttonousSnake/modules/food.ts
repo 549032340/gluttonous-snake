@@ -22,7 +22,7 @@ export default class Food {
     console.log(X, Y);
   }
 
-  randomNumber() {
+  randomNumber(): number {
     return Math.round(Math.random() * 30) * 10;
   }
 }

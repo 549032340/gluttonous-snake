@@ -7,7 +7,7 @@
         class="chunk"
         :style="{ left: snakeInfo.X + 'px', top: snakeInfo.Y + 'px' }"
       ></div>
-      <div ref="body" class="chunk"></div>
+      <!-- <div ref="body" class="chunk"></div> -->
     </div>
     <div
       ref="food"

@@ -22,20 +22,19 @@ export default defineComponent({
   setup() {
     const gamecontrol = reactive(new GameControl());
 
-    // watch(gamecontrol.food, val => {
-    //   console.log(val);
-    // });
     const foodInfo = computed(() => {
       return {
         X: gamecontrol.food.X,
         Y: gamecontrol.food.Y
       };
     });
-    const snakeInfo = {
-      X: gamecontrol.snake.X,
-      Y: gamecontrol.snake.Y
-    };
-    window.document.onkeydown = gamecontrol.disableRefresh;
+    const snakeInfo = computed(() => {
+      return {
+        X: gamecontrol.snake.X,
+        Y: gamecontrol.snake.Y
+      };
+    });
+    gamecontrol.init();
     // 修改食物位置
     function changeFoodPosition() {
       gamecontrol.food.change();
