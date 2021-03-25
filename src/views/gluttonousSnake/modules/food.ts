@@ -19,7 +19,6 @@ export default class Food {
     const Y = this.randomNumber();
     this._X = X;
     this._Y = Y;
-    console.log(X, Y);
   }
 
   randomNumber(): number {

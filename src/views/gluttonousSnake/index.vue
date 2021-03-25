@@ -4,12 +4,15 @@
       class="w-96 h-112 bg-green-200 border-10 border-black rounded-5xl flex flex-col justify-center items-center"
     >
       <Stage :foodInfo="foodInfo" :snakeInfo="snakeInfo" />
-      <ScorePanel :changeFoodPosition="changeFoodPosition" />
+      <ScorePanel
+        :scorePanelInfo="scorePanelInfo"
+        :changeFoodPosition="changeFoodPosition"
+      />
     </div>
   </section>
 </template>
 <script lang="ts">
-import { computed, defineComponent, reactive, watch } from 'vue';
+import { computed, defineComponent, reactive } from 'vue';
 import Stage from './stage.vue';
 import ScorePanel from './scorePanel.vue';
 import GameControl from './modules/gameControl';
@@ -21,7 +24,6 @@ export default defineComponent({
   },
   setup() {
     const gamecontrol = reactive(new GameControl());
-
     const foodInfo = computed(() => {
       return {
         X: gamecontrol.food.X,
@@ -31,9 +33,17 @@ export default defineComponent({
     const snakeInfo = computed(() => {
       return {
         X: gamecontrol.snake.X,
-        Y: gamecontrol.snake.Y
+        Y: gamecontrol.snake.Y,
+        bodies: gamecontrol.snake.bodies
       };
     });
+    const scorePanelInfo = computed(() => {
+      return {
+        score: gamecontrol.scorePanel.score,
+        level: gamecontrol.scorePanel.level
+      };
+    });
+    // 初始化游戏
     gamecontrol.init();
     // 修改食物位置
     function changeFoodPosition() {
@@ -42,6 +52,7 @@ export default defineComponent({
     return {
       foodInfo,
       snakeInfo,
+      scorePanelInfo,
       changeFoodPosition
     };
   }

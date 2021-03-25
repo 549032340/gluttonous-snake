@@ -2,8 +2,6 @@ export default class ScorePanel {
   private _score = 0;
   private _level = 1;
 
-  // constructor() {}
-
   get score() {
     return this._score;
   }

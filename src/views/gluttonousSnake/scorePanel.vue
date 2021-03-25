@@ -1,21 +1,25 @@
 <template>
   <section class="w-80 mt-5 font-bold flex justify-between">
     <div>
-      SCORE: <span>{{ score }}</span>
+      SCORE: <span>{{ scorePanelInfo.score }}</span>
     </div>
-    <button @click="changeFoodPosition">add</button>
+    <!-- <button @click="changeFoodPosition">add</button> -->
     <div>
-      LEVEL: <span>{{ level }}</span>
+      LEVEL: <span>{{ scorePanelInfo.level }}</span>
     </div>
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'ScorePanel',
   props: {
     changeFoodPosition: {
       type: Function,
+      require: true
+    },
+    scorePanelInfo: {
+      type: Object,
       require: true
     }
   }

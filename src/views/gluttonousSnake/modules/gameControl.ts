@@ -19,34 +19,50 @@ export default class GameControl {
   init() {
     // document.addEventListener('keydown',this.keydownHandler.bind(this))
     window.document.onkeydown = this.keydownHandler.bind(this);
-  }
-
-  keydownHandler(evt: KeyboardEvent) {
-    // 如果点击的按键和上一次一致，那么忽略
-    if (evt.code === this.direction) return;
-    this.direction = evt.code;
+    /*
+     * 在初始化的时候运行run()而不是在keydownHandler()运行run()的原因：
+     *     如果在在keydownHandler中执行run，每次点击按钮的时候都会执行一次，会添加多次定时器，🐍的移动速度会越来越快
+     */
     this.run();
   }
 
-  /*
-   * 问题1：再次点击按钮会造成蛇的加速，因为在不断添加定时器;
-   * 预期解决方案：通过闭包，给定时器设置一个值，每次执行方法就覆盖这个值，保证只有一个定时器在运行
-   * 出现的问题：闭包return的function未执行
-   */
+  keydownHandler(evt: KeyboardEvent) {
+    // 🐍有身体之后，禁止🐍掉头
+    if (this.snake.bodies[1]) {
+      if (
+        ((this.direction === 'ArrowRight' || this.direction === 'ArrowLeft') &&
+          (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft')) ||
+        ((this.direction === 'ArrowUp' || this.direction === 'ArrowDown') &&
+          (evt.code === 'ArrowUp' || evt.code === 'ArrowDown'))
+      ) {
+        return;
+      }
+    }
+
+    this.direction = evt.code;
+  }
   run() {
     if (!this.isAlive) return;
     let X = this.snake.X;
     let Y = this.snake.Y;
     switch (this.direction) {
+      case 'KeyD':
+      case 'Right':
       case 'ArrowRight':
         X += 10;
         break;
+      case 'KeyA':
+      case 'Left':
       case 'ArrowLeft':
         X -= 10;
         break;
+      case 'KeyW':
+      case 'Up':
       case 'ArrowUp':
         Y -= 10;
         break;
+      case 'KeyS':
+      case 'Down':
       case 'ArrowDown':
         Y += 10;
         break;
@@ -62,20 +78,14 @@ export default class GameControl {
       alert(err.message);
       this.isAlive = false;
     }
-
-    let timer = null;
-    // 问题1：未执行
-    return function() {
-      console.log(123);
-
-      timer = this.isAlive ? setTimeout(this.run.bind(this), 300) : null;
-    };
+    this.isAlive && setTimeout(this.run.bind(this), 300); // 300 - (this.scorePanel.level - 1) * 30
   }
-  // this.isAlive && setTimeout(this.run.bind(this, end), 300); // 300 - (this.scorePanel.level - 1) * 30
 
   checkEat(X: number, Y: number) {
     if (X === this.food.X && Y === this.food.Y) {
-      console.log('吃到食物了！');
+      this.scorePanel.addScore();
+      this.food.change();
+      this.snake.addBody();
     }
   }
 }
