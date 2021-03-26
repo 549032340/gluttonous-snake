@@ -13,12 +13,16 @@ export default class GameControl {
     this.snake = new Snake();
     this.scorePanel = new ScorePanel();
     this.direction = '';
-    this.isAlive = true;
+    this.isAlive = false;
   }
 
   init() {
     // document.addEventListener('keydown',this.keydownHandler.bind(this))
     window.document.onkeydown = this.keydownHandler.bind(this);
+
+    this.isAlive = true;
+    this.direction = 'ArrowRight';
+
     /*
      * 在初始化的时候运行run()而不是在keydownHandler()运行run()的原因：
      *     如果在在keydownHandler中执行run，每次点击按钮的时候都会执行一次，会添加多次定时器，🐍的移动速度会越来越快
@@ -27,18 +31,6 @@ export default class GameControl {
   }
 
   keydownHandler(evt: KeyboardEvent) {
-    // 🐍有身体之后，禁止🐍掉头
-    if (this.snake.bodies[1]) {
-      if (
-        ((this.direction === 'ArrowRight' || this.direction === 'ArrowLeft') &&
-          (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft')) ||
-        ((this.direction === 'ArrowUp' || this.direction === 'ArrowDown') &&
-          (evt.code === 'ArrowUp' || evt.code === 'ArrowDown'))
-      ) {
-        return;
-      }
-    }
-
     this.direction = evt.code;
   }
   run() {
@@ -75,17 +67,26 @@ export default class GameControl {
       this.snake.Y = Y;
       this.checkEat(X, Y);
     } catch (err) {
-      alert(err.message);
-      this.isAlive = false;
+      alert(err.message + 'GAME OVER！ 得分：' + this.scorePanel.score);
+      this.restart();
     }
-    this.isAlive && setTimeout(this.run.bind(this), 300); // 300 - (this.scorePanel.level - 1) * 30
+    this.isAlive &&
+      setTimeout(this.run.bind(this), 300 - (this.scorePanel.level - 1) * 30);
   }
 
   checkEat(X: number, Y: number) {
     if (X === this.food.X && Y === this.food.Y) {
       this.scorePanel.addScore();
-      this.food.change();
+      this.food.change(this.snake.bodies);
       this.snake.addBody();
     }
+  }
+
+  restart() {
+    this.food = new Food();
+    this.snake = new Snake();
+    this.scorePanel = new ScorePanel();
+    this.isAlive = false;
+    this.direction = '';
   }
 }

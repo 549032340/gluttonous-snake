@@ -4,11 +4,13 @@ module.exports = {
   theme: {
     extend: {
       width: {
-        '8px': '8px'
+        '8px': '8px',
+        '0.55': '0.1375rem'
       },
       height: {
         '112': '28rem',
-        '8px': '8px'
+        '8px': '8px',
+        '0.55': '0.1375rem'
       },
       borderWidth: {
         '5': '5px',
@@ -21,8 +23,11 @@ module.exports = {
     }
   },
   variants: {
-    backgroundColor: ['responsive', 'hover', 'focus', 'active'],
-    fontSize: ['responsive', 'hover']
+    extend: {
+      backgroundColor: ['responsive', 'hover', 'focus', 'active'],
+      fontSize: ['responsive', 'hover'],
+      scale: ['focus', 'active']
+    }
     // borderWidth:{
     //   border-8
     // },

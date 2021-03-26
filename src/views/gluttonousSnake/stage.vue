@@ -4,7 +4,7 @@
     <div id="snake">
       <div
         ref="head"
-        class="chunk"
+        class="chunk head"
         :style="{ left: snakeInfo.X + 'px', top: snakeInfo.Y + 'px' }"
       ></div>
       <div v-if="snakeInfo.bodies">
@@ -21,7 +21,7 @@
     </div>
     <div
       ref="food"
-      class="body chunk"
+      class="chunk"
       :style="{
         left: foodInfo.X + 'px',
         top: foodInfo.Y + 'px'
@@ -43,67 +43,14 @@ export default defineComponent({
       type: Object,
       require: true
     }
-  },
-  setup() {
-    // 食物
-    // const food = reactive(new Food());
-    // const foodX = computed(() => {
-    //   return food.X;
-    // });
-    // const foodY = computed(() => {
-    //   return food.Y;
-    // });
-    // const change = () => {
-    //   food.change();
-    // };
-    // change();
-    // 蛇
-    // const snake = reactive(new Snake());
-    // const snakeX = computed(() => {
-    //   return snake.X;
-    // });
-    // const snakeY = computed(() => {
-    //   return snake.Y;
-    // });
-    // function moveUpX(): void {
-    //   const move = () => {
-    //     setTimeout(() => {
-    //       snake.moveX('right');
-    //       moveUpX();
-    //     }, 500);
-    //   };
-    //   if (snakeX.value < 300) {
-    //     move();
-    //   } else {
-    //     console.log('game over');
-    //   }
-    // }
-    // function moveUpY(): void {
-    //   const move = () => {
-    //     setTimeout(() => {
-    //       snake.moveY('up');
-    //       moveUpY();
-    //     }, 500);
-    //   };
-    //   if (snakeX.value < 300) {
-    //     move();
-    //   } else {
-    //     console.log('game over');
-    //   }
-    // }
-
-    // moveUpX();
-    return {
-      // foodX,
-      // foodY,
-      // snakeX,
-      // snakeY
-    };
   }
 });
 </script>
 <style>
 .chunk {
   @apply w-2.5 h-2.5 bg-black absolute border-2 border-green-200;
+}
+.head {
+  @apply rounded-xl z-10;
 }
 </style>
